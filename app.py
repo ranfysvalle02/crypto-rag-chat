@@ -14,6 +14,7 @@ from bson.codec_options import CodecOptions
 from bson.binary import Binary, STANDARD
 
 app = Flask(__name__)
+app.secret_key = str(uuid.uuid4())
 
 embeddings = OllamaEmbeddings(
     model="nomic-embed-text",
@@ -397,7 +398,15 @@ def chat():
         query_embedding = embeddings.embed_query(user_input)
         # Query the vector store
         documents = list(collection.aggregate([
-            {"$match": {}},
+            {
+                '$vectorSearch': {
+                    'index': 'vector_index', 
+                    'path': 'embedding',
+                    'queryVector': query_embedding,
+                    'numCandidates': 100,
+                    'limit': chunk_count
+                }
+            },
             {"$project": {"_id": 0, "embedding": 0}}
         ], allowDiskUse=True))
         docs = documents
