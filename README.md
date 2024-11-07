@@ -243,27 +243,9 @@ def chat():
 
 ---
 
-## **Lessons Learned**
-
-### **1. Importance of Consistent Key Management**
+## **Importance of Consistent Key Management**
 
 One of the critical challenges faced was the **HMAC validation failure**, which occurred due to inconsistent master keys used for encryption and decryption. Ensuring that the `local_master_key` remains the same across all sessions was paramount. This was achieved by storing the master key in a persistent file (`master_key.key`) rather than generating a new one each time the application runs.
-
-### **2. Manual Encryption Over Automatic Encryption**
-
-While MongoDB's automatic encryption is convenient, it posed significant challenges when combined with aggregation operations, leading to errors and complex configurations. Switching to **manual encryption** provided greater control, flexibility, and compatibility with complex database queries, such as vector searches and aggregations.
-
-### **3. Correct Configuration of Vector Searches**
-
-Integrating MongoDB Atlas Vector Search required precise configuration of the `$vectorSearch` operator. Initial mistakes in parameter names (e.g., using `path` instead of `vectorField` or `k` instead of `limit`) led to errors. Carefully following MongoDB's documentation and ensuring parameter accuracy was essential for successful vector searches.
-
-### **4. Robust Error Handling**
-
-Implementing comprehensive error handling helped in diagnosing and resolving issues effectively. Wrapping critical operations in try-except blocks and providing meaningful error messages facilitated smoother debugging and enhanced application reliability.
-
-### **5. Testing and Validation**
-
-Regular testing at each development stage ensured that components worked as intended before integration. Validating embedding dimensions, encryption/decryption processes, and vector search results helped maintain data integrity and application performance.
 
 ---
 
@@ -281,25 +263,13 @@ Implementing Client-Side Field-Level Encryption (CSFLE) is a robust method to pr
 
 ### **2. Manual vs. Automatic Encryption**
 
-While automatic encryption simplifies the encryption process, it can introduce complexities, especially with advanced database operations like aggregations and vector searches.
-
 **Advantages of Manual Encryption:**
 
 - **Greater Control**: Decide exactly which fields to encrypt and when.
 - **Flexibility**: Seamlessly integrate with complex database queries and operations.
 - **Simplified Configuration**: Avoid managing encrypted fields maps and client re-initializations.
 
-### **3. Configuring Vector Searches Correctly**
-
-Vector searches are powerful for semantic similarity searches but require precise configuration to function correctly.
-
-**Key Points:**
-
-- **Correct Parameter Names**: Ensure that all required parameters (`index`, `queryVector`, `vectorField`, `limit`, etc.) are correctly named and set.
-- **Embedding Consistency**: The dimensionality of your query embeddings must match the vector field's configuration in MongoDB.
-- **Index Readiness**: Always verify that your vector index is fully built and queryable before performing searches.
-
-### **4. Robust Error Handling**
+### **3. Robust Error Handling**
 
 Implement comprehensive error handling to catch and resolve issues promptly. This includes:
 
@@ -307,7 +277,7 @@ Implement comprehensive error handling to catch and resolve issues promptly. Thi
 - **Meaningful Error Messages**: Provide clear and descriptive error messages to aid in debugging.
 - **Logging**: Implement logging to trace application flow and capture errors for analysis.
 
-### **5. Testing and Validation**
+### **4. Testing and Validation**
 
 Regularly test each component of your application to ensure they work as expected before integrating them. Validate:
 
