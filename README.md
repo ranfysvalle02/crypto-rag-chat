@@ -55,14 +55,6 @@ Ensuring the privacy and security of your data is paramount. This application us
 
 ---
 
-## **Setup and Installation**
-
-### **Prerequisites**
-
-- **Python 3.10+**: Ensure you have Python installed.
-- **MongoDB Atlas Account**: Set up a MongoDB Atlas cluster with Vector Search enabled.
-- **Ollama Llama 3.2 Model**: Ensure the Ollama model is running locally.
-
 ## **Key Components and Code Overview**
 
 ### **1. Encryption Setup**
