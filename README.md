@@ -62,7 +62,8 @@ Ensuring the privacy and security of your data is paramount. This application us
 The application uses MongoDB's Client-Side Field-Level Encryption (CSFLE) to encrypt sensitive data fields before storing them in the database.
 
 ```python
-# Initialize the local master key
+DATABASE_NAME = 'mydatabase'
+
 KEY_FILE = 'master_key.key'
 
 # Check if the key file exists
@@ -88,12 +89,20 @@ client = MongoClient('mongodb://localhost/?directConnection=true')
 db = client[DATABASE_NAME]
 
 # Initialize ClientEncryption
-client_encryption = ClientEncryption(
-    kms_providers,
-    key_vault_namespace,
-    key_vault_client,
-    CodecOptions(uuid_representation=STANDARD)
-)
+try:
+    client_encryption = ClientEncryption(
+        kms_providers,
+        key_vault_namespace,
+        key_vault_client,
+        CodecOptions(uuid_representation=STANDARD)
+    )
+except pymongo.errors.EncryptionError as e:
+    # Handle encryption errors gracefully
+    print(f"Error creating ClientEncryption: {e}")
+
+if client is None or db is None:
+    raise Exception(f"Failed to connect to MongoDB - Check your configuration. client={client} db={db}")
+
 ```
 
 ### **2. Data Ingestion and Encryption**
@@ -137,13 +146,13 @@ def ingest():
         new_doc = {
             "text": encrypted_text,
             "source": source,
-            "embedding": embeddings.embed_documents([chunk])[0]
+            "embedding": embeddings.embed_documents([chunk])
         }
         new_docs.append(new_doc)
 
     if collection_name not in db.list_collection_names():
         return jsonify({'error': 'Collection does not exist'})
-    
+
     try:
         insertResults = db[collection_name].insert_many(new_docs)
         if len(insertResults.inserted_ids) == len(new_docs):
