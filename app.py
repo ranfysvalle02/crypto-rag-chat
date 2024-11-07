@@ -247,6 +247,9 @@ def create_collection():
 @app.route('/list_collections', methods=['GET'])
 def get_collections():
     collections = get_collection_names()
+    # make sure we ignore the keymap collection when listing collections
+    if "keymap" in collections:
+        collections.remove("keymap")
     return jsonify({'collections': collections})
 
 @app.route('/delete_collection', methods=['POST'])
