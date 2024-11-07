@@ -2,11 +2,11 @@
 
 # Chat-with-Encrypted-Collection-of-Notes | Powered by MongoDB
 
+**Chat-with-Encrypted-Collection-of-Notes** is a secure web application built with Flask that empowers users to upload and manage collections of notes. Users can interact with their notes through an AI chatbot, enabling insightful discussions and explorations of the uploaded content. Leveraging MongoDB Atlas Vector Search and client-side field-level encryption, the application ensures data privacy and security while providing powerful search capabilities.
+
 Inspired by
 - https://github.com/ranfysvalle02/chat-with-docs-mdb
 - https://github.com/ranfysvalle02/mdb-crypto-RAG
-
-**Chat-with-Encrypted-Collection-of-Notes** is a secure web application built with Flask that empowers users to upload and manage collections of notes. Users can interact with their notes through an AI chatbot, enabling insightful discussions and explorations of the uploaded content. Leveraging MongoDB Atlas Vector Search and client-side field-level encryption, the application ensures data privacy and security while providing powerful search capabilities.
 
 ![Cryptorag](chat.png)
 
