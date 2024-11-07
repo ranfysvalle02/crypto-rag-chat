@@ -65,6 +65,24 @@ Ensuring the privacy and security of your data is paramount. This application us
 
 ---
 
+## Setting Up a Local Atlas Environment
+
+1. **Pull the Docker Image:**
+
+   * **Latest Version:**
+     ```bash
+     docker pull mongodb/mongodb-atlas-local
+     ```
+
+2. **Run the Database:**
+
+   ```bash
+   docker run -p 27017:27017 mongodb/mongodb-atlas-local
+   ```
+   This command runs the Docker image, exposing port 27017 on your machine for connecting to the database.
+
+---
+
 ## **Key Components and Code Overview**
 
 ### **1. Encryption Setup**
