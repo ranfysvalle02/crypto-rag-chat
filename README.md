@@ -1,4 +1,4 @@
-![](explore.png)
+![](cryptorag.png)
 
 # Chat-with-Encrypted-Collection-of-Notes | Powered by MongoDB
 
