@@ -137,41 +137,44 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
     filename = file.name;
 
     if (file.type.startsWith('application/pdf')) {
-        const reader = new FileReader();
+        var reader = new FileReader();
         reader.onload = function() {
-            const typedarray = new Uint8Array(this.result);
-            pdfjsLib.getDocument(typedarray).promise.then((pdfDoc) => {
-                const numPages = pdfDoc.numPages;
-                let allText = [];
+            var typedarray = new Uint8Array(this.result);
 
-                const getPageText = (pageNum) => {
-                    return pdfDoc.getPage(pageNum).then((page) => {
-                        return page.getTextContent().then((textContent) => {
-                            const pageText = textContent.items.map(item => item.str).join(' ');
-                            allText.push(pageText);
-                        });
-                    });
-                };
-
-                const pagePromises = [];
-                for (let i = 1; i <= numPages; i++) {
-                    pagePromises.push(getPageText(i));
+            pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                // set pdf to global pdf variable
+                window.pdf = pdf;
+                var pages = [];
+                for (var i = 1; i <= pdf.numPages; i++) {
+                    pages.push(i);
                 }
-
-                Promise.all(pagePromises).then(() => {
-                    const fileContent = allText.join('\n');
-                    console.log('File content:', fileContent);
-                    document.getElementById('fileContent').textContent = fileContent;
-
-                    document.getElementById('upload').style.display = 'none';
-                    document.getElementById('resetButton').style.display = 'block';
-                }).catch(error => {
-                    console.error("Error processing pages:", error);
-                });
-            }).catch(error => {
-                console.error("Error getting document:", error);
+                return Promise.all(pages.map(page => {
+                    return pdf.getPage(page).then(renderPage);
+                }));
+            }).then(function(textContentItems) {
+                var strArr = textContentItems.map(item => item.str);
+                var text = strArr.join('');
+                document.getElementById('fileContent').innerText = text;
+                document.getElementById('upload').style.display = 'none';
+                document.getElementById('resetButton').style.display = 'block';
             });
         };
+        reader.readAsArrayBuffer(file);
+
+    } else if (file.name.endsWith('.docx')) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var arrayBuffer = reader.result;
+
+            mammoth.extractRawText({arrayBuffer: arrayBuffer})
+                .then(function(result) {
+                    var text = result.value; // The raw text
+                    document.getElementById('fileContent').innerText = text;
+                    document.getElementById('upload').style.display = 'none';
+                    document.getElementById('resetButton').style.display = 'block';
+                })
+                .done();
+        }
         reader.readAsArrayBuffer(file);
     } else {
         var reader = new FileReader();
@@ -184,6 +187,7 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
         reader.readAsText(file);
     }
 }, false);
+
 
 document.getElementById('resetButton').addEventListener('click', function(e) {
     document.getElementById('upload').style.display = 'block';
