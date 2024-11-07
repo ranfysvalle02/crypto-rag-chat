@@ -259,9 +259,32 @@ def chat():
 
 ---
 
+# SECURITY
+
 ## **Importance of Consistent Key Management**
 
 One of the critical challenges faced was the **HMAC validation failure**, which occurred due to inconsistent master keys used for encryption and decryption. Ensuring that the `local_master_key` remains the same across all sessions was paramount. This was achieved by storing the master key in a persistent file (`master_key.key`) rather than generating a new one each time the application runs.
+
+## Maintaining Device and Key Security
+
+To ensure the security of your local device and the master key, consider the following tips:
+
+### Device Security:
+
+* **Strong Passwords:** Use strong, unique passwords for your device and all accounts.
+* **Operating System Updates:** Keep your operating system and all software up-to-date with the latest security patches.
+* **Antivirus Software:** Install and regularly update reputable antivirus software.
+* **Firewall:** Enable your device's firewall to protect against unauthorized network access.
+* **Malware Awareness:** Be cautious of suspicious emails, downloads, and websites to avoid malware infections.
+* **Regular Backups:** Create regular backups of your data to protect against data loss in case of a security breach or hardware failure.
+
+### Key Security:
+
+* **Secure Storage:** Store the `master_key.key` file in a secure location, such as a password-protected encrypted folder or hardware security module.
+* **Access Control:** Limit access to the key file to authorized individuals only.
+* **Regular Key Rotation:** Consider periodically rotating the master key to enhance security.
+* **Avoid Sharing the Key:** Never share the master key with anyone.
+* **Secure Key Generation:** Use a cryptographically secure random number generator to generate the master key.
 
 ---
 
