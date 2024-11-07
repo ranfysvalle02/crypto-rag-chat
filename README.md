@@ -55,6 +55,14 @@ Ensuring the privacy and security of your data is paramount. This application us
 
 ---
 
+# Writing an Encrypted Field
+![alt text](https://github.com/ranfysvalle02/mdb-crypto-RAG/raw/main/lock-4.png)
+
+# Reading an Encrypted Field
+![alt text](https://github.com/ranfysvalle02/mdb-crypto-RAG/raw/main/lock-5.png)
+
+---
+
 ## **Key Components and Code Overview**
 
 ### **1. Encryption Setup**
