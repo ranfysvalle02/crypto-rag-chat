@@ -6,23 +6,6 @@ _Inspired by https://github.com/ranfysvalle02/chat-with-docs-mdb_
 
 **Chat-with-Encrypted-Collection-of-Notes** is a secure web application built with Flask that empowers users to upload and manage collections of notes. Users can interact with their notes through an AI chatbot, enabling insightful discussions and explorations of the uploaded content. Leveraging MongoDB Atlas Vector Search and client-side field-level encryption, the application ensures data privacy and security while providing powerful search capabilities.
 
-# MongoDB Atlas
-
-Build Encrypted Collections of notes that you can chat with, all powered by MongoDB Atlas Vector Search and Client Side Field Level Encryption.
-
-## Features
-
-- Chunk Management (View/Edit/Delete)
-- Chat Chunk Control (How many chunks to use)
-- Ingest Chunk Size Control (How big should the chunks be @ ingest)
-- Upload and display files
-- Multiple File Formats Supported (PDF, .txt, .md, .html, etc)
-- Chat with an AI about the uploaded content
-- Privacy-focused: all processing happens locally - NOTHING LEAVES YOUR DEVICE!
-- Ability to upload new files mid-conversation
-- Clear chat history or all data as needed
-
-
 ![Cryptorag](cryptorag.png)
 
 ---
