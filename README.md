@@ -328,6 +328,36 @@ Regularly test each component of your application to ensure they work as expecte
 
 ---
 
+## MongoDB Client-Side Field Level Encryption: Performance Insights
+
+When implementing MongoDB's client-side field level encryption (CSFLE), developers often wonder about the performance implications of manual versus automatic encryption. Here are the results of a test ran with a 5kb file.
+
+### Manual Encryption vs. No Encryption
+
+| Operation | Manual Encryption | No Encryption | Difference |
+|-----------|-------------------|---------------|------------|
+| Ingest    | ~1s               | ~327ms        | +673ms     |
+| Explore   | ~5s               | ~2s           | +3s        |
+| Chat Query| ~4.3s             | ~3.5s         | +800ms     |
+
+As expected, manual encryption introduces some overhead:
+- Ingestion time triples
+- Exploration and Chat query response time increase as well
+
+### Manual vs. Automatic Encryption
+
+While we don't have specific numbers for automatic encryption in this test, general observations suggest:
+
+- Manual encryption may be slightly faster due to reduced overhead
+- Automatic encryption might have slightly more overhead due to automatic schema checks
+
+### Key Takeaways
+
+1. Encryption, whether manual or automatic, will impact performance to some degree.
+2. The choice between manual and automatic encryption should consider factors beyond just speed, such as ease of implementation and maintenance.
+3. For small files (5KB in our test), the absolute time differences may be negligible in many real-world scenarios.
+4. Larger datasets or high-volume operations might see more significant impacts, warranting further testing in those specific use cases.
+
 ---
 
 ## **Full Code**
