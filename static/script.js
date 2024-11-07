@@ -137,31 +137,43 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
     filename = file.name;
 
     if (file.type.startsWith('application/pdf')) {
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = function() {
-            var typedarray = new Uint8Array(this.result);
+            const typedarray = new Uint8Array(this.result);
+            pdfjsLib.getDocument(typedarray).promise.then((pdfDoc) => {
+                const numPages = pdfDoc.numPages;
+                let allText = [];
 
-            pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
-                // set pdf to global pdf variable
-                window.pdf = pdf;
-                var pages = [];
-                for (var i = 1; i <= pdf.numPages; i++) {
-                    pages.push(i);
+                const getPageText = (pageNum) => {
+                    return pdfDoc.getPage(pageNum).then((page) => {
+                        return page.getTextContent().then((textContent) => {
+                            const pageText = textContent.items.map(item => item.str).join(' ');
+                            allText.push(pageText);
+                        });
+                    });
+                };
+
+                const pagePromises = [];
+                for (let i = 1; i <= numPages; i++) {
+                    pagePromises.push(getPageText(i));
                 }
-                return Promise.all(pages.map(page => {
-                    return pdf.getPage(page).then(renderPage);
-                }));
-            }).then(function(textContentItems) {
-                var strArr = textContentItems.map(item => item.str);
-                var text = strArr.join('');
-                document.getElementById('fileContent').innerText = text;
-                document.getElementById('upload').style.display = 'none';
-                document.getElementById('resetButton').style.display = 'block';
+
+                Promise.all(pagePromises).then(() => {
+                    const fileContent = allText.join('\n');
+                    console.log('File content:', fileContent);
+                    document.getElementById('fileContent').textContent = fileContent;
+
+                    document.getElementById('upload').style.display = 'none';
+                    document.getElementById('resetButton').style.display = 'block';
+                }).catch(error => {
+                    console.error("Error processing pages:", error);
+                });
+            }).catch(error => {
+                console.error("Error getting document:", error);
             });
         };
         reader.readAsArrayBuffer(file);
-
-    } else if (file.name.endsWith('.docx')) {
+    }else if(file.type.startsWith('application/vnd.openxmlformats-officedocument.wordprocessingml.document')){
         var reader = new FileReader();
         reader.onload = function(e) {
             var arrayBuffer = reader.result;
@@ -176,7 +188,7 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
                 .done();
         }
         reader.readAsArrayBuffer(file);
-    } else {
+    }else {
         var reader = new FileReader();
         reader.onload = function(e) {
             var contents = e.target.result;
@@ -187,7 +199,6 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
         reader.readAsText(file);
     }
 }, false);
-
 
 document.getElementById('resetButton').addEventListener('click', function(e) {
     document.getElementById('upload').style.display = 'block';
