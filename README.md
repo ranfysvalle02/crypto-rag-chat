@@ -1,6 +1,6 @@
 ![](explore.png)
 
-# Chat-with-Collection-of-Notes | Powered by MongoDB
+# Chat-with-Encrypted-Collection-of-Notes | Powered by MongoDB
 
 _Inspired by https://github.com/fivestarspicy/chat-with-notes_
 
